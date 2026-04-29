@@ -19,11 +19,11 @@ class LineChart extends ImplicitlyAnimatedWidget {
   const LineChart(
     this.data, {
     this.chartRendererKey,
-    super.key,
-    super.duration = const Duration(milliseconds: 150),
-    super.curve = Curves.linear,
+    Key? key,
+    Duration duration = const Duration(milliseconds: 150),
+    Curve curve = Curves.linear,
     this.transformationConfig = const FlTransformationConfig(),
-  });
+  }) : super(key: key, duration: duration, curve: curve);
 
   /// Determines how the [LineChart] should be look like.
   final LineChartData data;
@@ -100,14 +100,14 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         newData.maxX.isNaN ||
         newData.minY.isNaN ||
         newData.maxY.isNaN) {
-      final (minX, maxX, minY, maxY) = _lineChartHelper.calculateMaxAxisValues(
+      final results = _lineChartHelper.calculateMaxAxisValues(
         newData.lineBarsData,
       );
       newData = newData.copyWith(
-        minX: newData.minX.isNaN ? minX : newData.minX,
-        maxX: newData.maxX.isNaN ? maxX : newData.maxX,
-        minY: newData.minY.isNaN ? minY : newData.minY,
-        maxY: newData.maxY.isNaN ? maxY : newData.maxY,
+        minX: newData.minX.isNaN ? results.minX : newData.minX,
+        maxX: newData.maxX.isNaN ? results.maxX : newData.maxX,
+        minY: newData.minY.isNaN ? results.minY : newData.minY,
+        maxY: newData.maxY.isNaN ? results.maxY : newData.maxY,
       );
     }
 

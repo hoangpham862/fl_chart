@@ -8,7 +8,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LineChartSample8 extends StatefulWidget {
-  const LineChartSample8({super.key});
+  const LineChartSample8({Key? key}) : super(key: key);
 
   @override
   State<LineChartSample8> createState() => _LineChartSample8State();
@@ -122,19 +122,19 @@ class _LineChartSample8State extends State<LineChartSample8> {
           VerticalRangeAnnotation(
             x1: 2,
             x2: 5,
-            color: AppColors.contentColorBlue.withValues(alpha: 0.2),
+            color: AppColors.contentColorBlue.withOpacity(0.2),
           ),
           VerticalRangeAnnotation(
             x1: 8,
             x2: 9,
-            color: AppColors.contentColorBlue.withValues(alpha: 0.2),
+            color: AppColors.contentColorBlue.withOpacity(0.2),
           ),
         ],
         horizontalRangeAnnotations: [
           HorizontalRangeAnnotation(
             y1: 2,
             y2: 3,
-            color: AppColors.contentColorGreen.withValues(alpha: 0.3),
+            color: AppColors.contentColorGreen.withOpacity(0.3),
           ),
         ],
       ),

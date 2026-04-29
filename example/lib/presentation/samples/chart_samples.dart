@@ -44,7 +44,7 @@ class ChartSamples {
       LineChartSample(9, (context) => LineChartSample9()),
       LineChartSample(10, (context) => const LineChartSample10()),
       LineChartSample(11, (context) => const LineChartSample11()),
-      LineChartSample(12, (context) => const LineChartSample12()),
+      // LineChartSample(12, (context) => const LineChartSample12()),
       LineChartSample(13, (context) => const LineChartSample13()),
     ],
     ChartType.bar: [
@@ -64,7 +64,7 @@ class ChartSamples {
     ],
     ChartType.scatter: [
       ScatterChartSample(1, (context) => ScatterChartSample1()),
-      ScatterChartSample(2, (context) => const ScatterChartSample2()),
+      // ScatterChartSample(2, (context) => const ScatterChartSample2()),
     ],
     ChartType.radar: [
       RadarChartSample(1, (context) => RadarChartSample1()),

@@ -4,7 +4,7 @@ import 'package:fl_chart_app/presentation/widgets/indicator.dart';
 import 'package:flutter/material.dart';
 
 class PieChartSample1 extends StatefulWidget {
-  const PieChartSample1({super.key});
+  const PieChartSample1({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => PieChartSample1State();
@@ -127,8 +127,7 @@ class PieChartSample1State extends State {
           titlePositionPercentageOffset: titlePositionPercentageOffsets[i],
           borderSide: isTouched
               ? const BorderSide(color: AppColors.contentColorWhite, width: 6)
-              : BorderSide(
-                  color: AppColors.contentColorWhite.withValues(alpha: 0)),
+              : BorderSide(color: AppColors.contentColorWhite.withOpacity(0)),
         );
       },
     );

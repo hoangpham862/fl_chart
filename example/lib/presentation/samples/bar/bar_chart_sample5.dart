@@ -4,7 +4,7 @@ import 'package:fl_chart_app/util/app_utils.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample5 extends StatefulWidget {
-  const BarChartSample5({super.key});
+  const BarChartSample5({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => BarChartSample5State();
@@ -31,16 +31,18 @@ class BarChartSample5State extends State<BarChartSample5> {
 
   Widget bottomTitles(double value, TitleMeta meta) {
     const style = TextStyle(color: Colors.white, fontSize: 10);
-    String text = switch (value.toInt()) {
-      0 => 'Mon',
-      1 => 'Tue',
-      2 => 'Wed',
-      3 => 'Thu',
-      4 => 'Fri',
-      5 => 'Sat',
-      6 => 'Sun',
-      _ => '',
-    };
+    // String text = switch (value.toInt()) {
+    //   0 => 'Mon',
+    //   1 => 'Tue',
+    //   2 => 'Wed',
+    //   3 => 'Thu',
+    //   4 => 'Fri',
+    //   5 => 'Sat',
+    //   6 => 'Sun',
+    //   _ => '',
+    // };
+    String text =
+        ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][value.toInt()];
     return SideTitleWidget(
       meta: meta,
       child: Text(text, style: style),
@@ -49,16 +51,9 @@ class BarChartSample5State extends State<BarChartSample5> {
 
   Widget topTitles(double value, TitleMeta meta) {
     const style = TextStyle(color: Colors.white, fontSize: 10);
-    String text = switch (value.toInt()) {
-      0 => 'Mon',
-      1 => 'Tue',
-      2 => 'Wed',
-      3 => 'Thu',
-      4 => 'Fri',
-      5 => 'Sat',
-      6 => 'Sun',
-      _ => '',
-    };
+    String text =
+        ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][value.toInt()];
+
     return SideTitleWidget(
       meta: meta,
       child: Text(text, style: style),
@@ -138,9 +133,9 @@ class BarChartSample5State extends State<BarChartSample5> {
               value1,
               null,
               gradient: LinearGradient(colors: [
-                AppColors.contentColorWhite.withValues(alpha: 0.8),
-                AppColors.contentColorGreen.withValues(alpha: 0.5),
-                AppColors.contentColorCyan.withValues(alpha: 0.2),
+                AppColors.contentColorWhite.withOpacity(0.8),
+                AppColors.contentColorGreen.withOpacity(0.5),
+                AppColors.contentColorCyan.withOpacity(0.2),
               ], stops: const [
                 0.1,
                 0.4,
@@ -169,8 +164,8 @@ class BarChartSample5State extends State<BarChartSample5> {
               gradient: LinearGradient(
                 colors: [
                   AppColors.contentColorPurple,
-                  AppColors.contentColorRed.withValues(alpha: 0.9),
-                  AppColors.contentColorOrange.withValues(alpha: 0.8),
+                  AppColors.contentColorRed.withOpacity(0.9),
+                  AppColors.contentColorOrange.withOpacity(0.8),
                 ],
                 stops: const [0, 0.5, 1],
                 begin: Alignment.topLeft,
@@ -213,12 +208,12 @@ class BarChartSample5State extends State<BarChartSample5> {
               -value1,
               null,
               gradient: LinearGradient(colors: [
-                AppColors.contentColorWhite.withValues(
-                    alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
-                AppColors.contentColorGreen.withValues(
-                    alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
-                AppColors.contentColorCyan.withValues(
-                    alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
+                AppColors.contentColorWhite
+                    .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+                AppColors.contentColorGreen
+                    .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+                AppColors.contentColorCyan
+                    .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
               ], stops: const [
                 0.1,
                 0.4,
@@ -230,8 +225,8 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
               -value1,
               -(value1 + value2),
-              AppColors.contentColorYellow.withValues(
-                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
+              AppColors.contentColorYellow
+                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
               label: isTouched ? 'B' : null,
               borderSide: const BorderSide(color: Colors.transparent),
             ),
@@ -241,16 +236,12 @@ class BarChartSample5State extends State<BarChartSample5> {
               null,
               gradient: LinearGradient(
                 colors: [
-                  AppColors.contentColorPurple.withValues(
-                      alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
-                  AppColors.contentColorRed.withValues(
-                      alpha: isTouched
-                          ? (shadowOpacity * 2) - 0.1
-                          : shadowOpacity),
-                  AppColors.contentColorOrange.withValues(
-                      alpha: isTouched
-                          ? (shadowOpacity * 2) - 0.2
-                          : shadowOpacity),
+                  AppColors.contentColorPurple.withOpacity(
+                      isTouched ? shadowOpacity * 2 : shadowOpacity),
+                  AppColors.contentColorRed.withOpacity(
+                      isTouched ? (shadowOpacity * 2) - 0.1 : shadowOpacity),
+                  AppColors.contentColorOrange.withOpacity(
+                      isTouched ? (shadowOpacity * 2) - 0.2 : shadowOpacity),
                 ],
                 stops: const [0, 0.5, 1],
                 begin: Alignment.topLeft,
@@ -262,8 +253,8 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
               -(value1 + value2 + value3),
               -(value1 + value2 + value3 + value4),
-              AppColors.contentColorBlue.withValues(
-                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
+              AppColors.contentColorBlue
+                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
               label: isTouched ? 'D' : null,
               borderSide: const BorderSide(color: Colors.transparent),
             ),
@@ -349,12 +340,12 @@ class BarChartSample5State extends State<BarChartSample5> {
               getDrawingHorizontalLine: (value) {
                 if (value == 0) {
                   return FlLine(
-                    color: AppColors.borderColor.withValues(alpha: 0.1),
+                    color: AppColors.borderColor.withAlpha(10),
                     strokeWidth: 3,
                   );
                 }
                 return FlLine(
-                  color: AppColors.borderColor.withValues(alpha: 0.05),
+                  color: AppColors.borderColor.withAlpha(5),
                   strokeWidth: 0.8,
                 );
               },

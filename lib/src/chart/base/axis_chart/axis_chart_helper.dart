@@ -96,9 +96,11 @@ class AxisChartHelper {
           -(childSize / 2) + (parentAxisSize - axisPosition) - distanceFromEdge;
     }
 
-    return switch (axisSide) {
-      AxisSide.left || AxisSide.right => Offset(0, offset),
-      AxisSide.top || AxisSide.bottom => Offset(offset, 0),
-    };
+    return {
+      AxisSide.left: Offset(0, offset),
+      AxisSide.right: Offset(0, offset),
+      AxisSide.top: Offset(offset, 0),
+      AxisSide.bottom: Offset(offset, 0),
+    }[axisSide]!;
   }
 }

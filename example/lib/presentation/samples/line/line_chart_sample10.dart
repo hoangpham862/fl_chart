@@ -6,7 +6,7 @@ import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample10 extends StatefulWidget {
-  const LineChartSample10({super.key});
+  const LineChartSample10({Key? key}) : super(key: key);
 
   final Color sinColor = AppColors.contentColorBlue;
   final Color cosColor = AppColors.contentColorPink;
@@ -115,7 +115,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
         show: false,
       ),
       gradient: LinearGradient(
-        colors: [widget.sinColor.withValues(alpha: 0), widget.sinColor],
+        colors: [widget.sinColor.withOpacity(0), widget.sinColor],
         stops: const [0.1, 1.0],
       ),
       barWidth: 4,
@@ -130,7 +130,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
         show: false,
       ),
       gradient: LinearGradient(
-        colors: [widget.cosColor.withValues(alpha: 0), widget.cosColor],
+        colors: [widget.cosColor.withOpacity(0), widget.cosColor],
         stops: const [0.1, 1.0],
       ),
       barWidth: 4,

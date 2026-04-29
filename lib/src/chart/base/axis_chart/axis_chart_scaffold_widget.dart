@@ -97,34 +97,31 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
   void didUpdateWidget(AxisChartScaffoldWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    switch ((
-      oldWidget.transformationConfig.transformationController,
-      widget.transformationConfig.transformationController
-    )) {
-      case (null, null):
-        break;
-      case (null, TransformationController()):
-        _transformationController.dispose();
-        _transformationController =
-            widget.transformationConfig.transformationController!;
-        _transformationController
-            .addListener(_transformationControllerListener);
-      case (TransformationController(), null):
+    final oldController =
+        oldWidget.transformationConfig.transformationController;
+    final newController = widget.transformationConfig.transformationController;
+    if (oldController == null && newController == null) {
+      // Case (null, null): Không làm gì cả
+    } else if (oldController == null && newController != null) {
+      // Case (null, TransformationController):
+      _transformationController.dispose();
+      _transformationController = newController;
+      _transformationController.addListener(_transformationControllerListener);
+    } else if (oldController != null && newController == null) {
+      // Case (TransformationController, null):
+      _transformationController
+          .removeListener(_transformationControllerListener);
+      _transformationController = TransformationController();
+      _transformationController.addListener(_transformationControllerListener);
+    } else if (oldController != null && newController != null) {
+      // Case (TransformationController, TransformationController):
+      if (oldController != newController) {
         _transformationController
             .removeListener(_transformationControllerListener);
-        _transformationController = TransformationController();
+        _transformationController = newController;
         _transformationController
             .addListener(_transformationControllerListener);
-      case (TransformationController(), TransformationController()):
-        if (oldWidget.transformationConfig.transformationController !=
-            widget.transformationConfig.transformationController) {
-          _transformationController
-              .removeListener(_transformationControllerListener);
-          _transformationController =
-              widget.transformationConfig.transformationController!;
-          _transformationController
-              .addListener(_transformationControllerListener);
-        }
+      }
     }
   }
 
@@ -219,34 +216,32 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
 
     final adjustedRect = _calculateAdjustedRect(rect);
 
-    final virtualRect = switch (_transformationConfig.scaleAxis) {
-      FlScaleAxis.none => null,
-      FlScaleAxis() => adjustedRect,
-    };
+    final virtualRect = (_transformationConfig.scaleAxis == FlScaleAxis.none)
+        ? null
+        : adjustedRect;
 
     final chart = KeyedSubtree(
       key: _chartKey,
       child: widget.chartBuilder(context, virtualRect),
     );
 
-    final child = switch (_transformationConfig.scaleAxis) {
-      FlScaleAxis.none => chart,
-      FlScaleAxis() => CustomInteractiveViewer(
-          transformationController: _transformationController,
-          clipBehavior: Clip.none,
-          trackpadScrollCausesScale:
-              _transformationConfig.trackpadScrollCausesScale,
-          maxScale: _transformationConfig.maxScale,
-          minScale: _transformationConfig.minScale,
-          panEnabled: _transformationConfig.panEnabled,
-          scaleEnabled: _transformationConfig.scaleEnabled,
-          child: SizedBox(
-            width: rect.width,
-            height: rect.height,
-            child: chart,
-          ),
-        ),
-    };
+    final child = (_transformationConfig.scaleAxis == FlScaleAxis.none)
+        ? chart
+        : CustomInteractiveViewer(
+            transformationController: _transformationController,
+            clipBehavior: Clip.none,
+            trackpadScrollCausesScale:
+                _transformationConfig.trackpadScrollCausesScale,
+            maxScale: _transformationConfig.maxScale,
+            minScale: _transformationConfig.minScale,
+            panEnabled: _transformationConfig.panEnabled,
+            scaleEnabled: _transformationConfig.scaleEnabled,
+            child: SizedBox(
+              width: rect.width,
+              height: rect.height,
+              child: chart,
+            ),
+          );
 
     final widgets = <Widget>[
       Container(

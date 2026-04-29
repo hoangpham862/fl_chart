@@ -4,7 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample6 extends StatelessWidget {
-  const BarChartSample6({super.key});
+  const BarChartSample6({Key? key}) : super(key: key);
 
   final pilateColor = AppColors.contentColorPurple;
   final cyclingColor = AppColors.contentColorCyan;
@@ -45,21 +45,35 @@ class BarChartSample6 extends StatelessWidget {
 
   Widget bottomTitles(double value, TitleMeta meta) {
     const style = TextStyle(fontSize: 10);
-    String text = switch (value.toInt()) {
-      0 => 'JAN',
-      1 => 'FEB',
-      2 => 'MAR',
-      3 => 'APR',
-      4 => 'MAY',
-      5 => 'JUN',
-      6 => 'JUL',
-      7 => 'AUG',
-      8 => 'SEP',
-      9 => 'OCT',
-      10 => 'NOV',
-      11 => 'DEC',
-      _ => '',
-    };
+    // String text = switch (value.toInt()) {
+    //   0 => 'JAN',
+    //   1 => 'FEB',
+    //   2 => 'MAR',
+    //   3 => 'APR',
+    //   4 => 'MAY',
+    //   5 => 'JUN',
+    //   6 => 'JUL',
+    //   7 => 'AUG',
+    //   8 => 'SEP',
+    //   9 => 'OCT',
+    //   10 => 'NOV',
+    //   11 => 'DEC',
+    //   _ => '',
+    // };
+    String text = [
+      'JAN',
+      'FEB',
+      'MAR',
+      'APR',
+      'MAY',
+      'JUN',
+      'JUL',
+      'AUG',
+      'SEP',
+      'OCT',
+      'NOV',
+      'DEC'
+    ][value.toInt()];
     return SideTitleWidget(
       meta: meta,
       child: Text(text, style: style),

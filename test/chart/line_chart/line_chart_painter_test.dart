@@ -4295,7 +4295,7 @@ void main() {
         minX: 0,
         maxX: 10,
         titlesData: const FlTitlesData(show: false),
-        backgroundColor: MockData.color1.withValues(alpha: 0),
+        backgroundColor: MockData.color1.withOpacity( 0),
       );
 
       final lineChartPainter = LineChartPainter();

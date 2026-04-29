@@ -59,12 +59,14 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
   bool get isRightOrBottom =>
       widget.side == AxisSide.right || widget.side == AxisSide.bottom;
 
-  AxisTitles get axisTitles => switch (widget.side) {
-        AxisSide.left => titlesData.leftTitles,
-        AxisSide.top => titlesData.topTitles,
-        AxisSide.right => titlesData.rightTitles,
-        AxisSide.bottom => titlesData.bottomTitles,
-      };
+  AxisTitles get axisTitles =>
+      {
+        AxisSide.left: titlesData.leftTitles,
+        AxisSide.top: titlesData.topTitles,
+        AxisSide.right: titlesData.rightTitles,
+        AxisSide.bottom: titlesData.bottomTitles,
+      }[widget.side] ??
+      const AxisTitles();
 
   SideTitles get sideTitles => axisTitles.sideTitles;
 
@@ -72,37 +74,41 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
 
   Axis get counterDirection => isHorizontal ? Axis.vertical : Axis.horizontal;
 
-  Alignment get alignment => switch (widget.side) {
-        AxisSide.left => Alignment.centerLeft,
-        AxisSide.top => Alignment.topCenter,
-        AxisSide.right => Alignment.centerRight,
-        AxisSide.bottom => Alignment.bottomCenter,
-      };
+  Alignment get alignment =>
+      {
+        AxisSide.left: Alignment.centerLeft,
+        AxisSide.top: Alignment.topCenter,
+        AxisSide.right: Alignment.centerRight,
+        AxisSide.bottom: Alignment.bottomCenter,
+      }[widget.side] ??
+      Alignment.center;
 
   EdgeInsets get thisSidePadding {
     final titlesPadding = titlesData.allSidesPadding;
     final borderPadding = widget.axisChartData.borderData.allSidesPadding;
-    return switch (widget.side) {
-      AxisSide.right ||
-      AxisSide.left =>
-        titlesPadding.onlyTopBottom + borderPadding.onlyTopBottom,
-      AxisSide.top ||
-      AxisSide.bottom =>
-        titlesPadding.onlyLeftRight + borderPadding.onlyLeftRight,
-    };
+    return {
+          AxisSide.right:
+              titlesPadding.onlyTopBottom + borderPadding.onlyTopBottom,
+          AxisSide.left:
+              titlesPadding.onlyTopBottom + borderPadding.onlyTopBottom,
+          AxisSide.top:
+              titlesPadding.onlyLeftRight + borderPadding.onlyLeftRight,
+          AxisSide.bottom:
+              titlesPadding.onlyLeftRight + borderPadding.onlyLeftRight,
+        }[widget.side] ??
+        EdgeInsets.zero;
   }
 
   double get thisSidePaddingTotal {
     final borderPadding = widget.axisChartData.borderData.allSidesPadding;
     final titlesPadding = titlesData.allSidesPadding;
-    return switch (widget.side) {
-      AxisSide.right ||
-      AxisSide.left =>
-        titlesPadding.vertical + borderPadding.vertical,
-      AxisSide.top ||
-      AxisSide.bottom =>
-        titlesPadding.horizontal + borderPadding.horizontal,
-    };
+    return {
+          AxisSide.right: titlesPadding.vertical + borderPadding.vertical,
+          AxisSide.left: titlesPadding.vertical + borderPadding.vertical,
+          AxisSide.top: titlesPadding.horizontal + borderPadding.horizontal,
+          AxisSide.bottom: titlesPadding.horizontal + borderPadding.horizontal,
+        }[widget.side] ??
+        0;
   }
 
   Size get viewSize {
@@ -126,10 +132,13 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
       return 0;
     }
 
-    return switch (widget.side) {
-      AxisSide.left || AxisSide.right => chartVirtualRect.top,
-      AxisSide.top || AxisSide.bottom => chartVirtualRect.left,
-    };
+    return {
+          AxisSide.left: chartVirtualRect.top,
+          AxisSide.right: chartVirtualRect.top,
+          AxisSide.top: chartVirtualRect.left,
+          AxisSide.bottom: chartVirtualRect.left,
+        }[widget.side] ??
+        0;
   }
 
   List<AxisSideTitleWidgetHolder> makeWidgets(
@@ -222,14 +231,12 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
 
     return axisPositions.where((metaData) {
       final location = metaData.axisPixelLocation;
-      return switch (side) {
-        AxisSide.left ||
-        AxisSide.right =>
-          chartRect.contains(Offset(0, location)),
-        AxisSide.top ||
-        AxisSide.bottom =>
-          chartRect.contains(Offset(location, 0)),
-      };
+      return {
+        AxisSide.left: chartRect.contains(Offset(0, location)),
+        AxisSide.right: chartRect.contains(Offset(0, location)),
+        AxisSide.top: chartRect.contains(Offset(location, 0)),
+        AxisSide.bottom: chartRect.contains(Offset(location, 0)),
+      }[side]!;
     }).toList();
   }
 
@@ -295,12 +302,12 @@ class _AxisTitleWidget extends StatelessWidget {
   final AxisSide side;
   final double axisViewSize;
 
-  int get axisNameQuarterTurns => switch (side) {
-        AxisSide.right => 3,
-        AxisSide.left => 3,
-        AxisSide.top => 0,
-        AxisSide.bottom => 0,
-      };
+  int get axisNameQuarterTurns => {
+        AxisSide.right: 3,
+        AxisSide.left: 3,
+        AxisSide.top: 0,
+        AxisSide.bottom: 0,
+      }[side]!;
 
   bool get isHorizontal => side == AxisSide.top || side == AxisSide.bottom;
 

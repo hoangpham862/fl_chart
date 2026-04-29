@@ -998,7 +998,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     Path barPath,
     LineChartBarData barData,
   ) {
-    if (!barData.show || barData.shadow.color.a == 0.0) {
+    if (!barData.show || barData.shadow.color.alpha == 0) {
       return;
     }
     if (barPath.computeMetrics().isEmpty) {
@@ -1279,12 +1279,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           rectRotationOffset.dy;
 
       final align = tp.textAlign.getFinalHorizontalAlignment(tp.textDirection);
-      final xOffset = switch (align) {
-        HorizontalAlignment.left => rect.left + tooltipData.tooltipPadding.left,
-        HorizontalAlignment.right =>
-          rect.right - tooltipData.tooltipPadding.right - tp.width,
-        _ => rect.center.dx - (tp.width / 2),
-      };
+      final xOffset = align == HorizontalAlignment.left
+          ? rect.left + tooltipData.tooltipPadding.left
+          : align == HorizontalAlignment.right
+              ? rect.right - tooltipData.tooltipPadding.right - tp.width
+              : rect.center.dx - (tp.width / 2);
 
       final drawOffset = Offset(
         xOffset,

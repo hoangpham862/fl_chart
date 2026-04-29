@@ -18,7 +18,7 @@ class BarChart extends ImplicitlyAnimatedWidget {
   BarChart(
     this.data, {
     this.chartRendererKey,
-    super.key,
+    Key? key,
     @Deprecated('Please use [duration] instead')
     Duration? swapAnimationDuration,
     Duration duration = const Duration(milliseconds: 150),
@@ -26,18 +26,21 @@ class BarChart extends ImplicitlyAnimatedWidget {
     Curve curve = Curves.linear,
     this.transformationConfig = const FlTransformationConfig(),
   })  : assert(
-          switch (data.alignment) {
-            BarChartAlignment.center ||
-            BarChartAlignment.end ||
-            BarChartAlignment.start =>
-              transformationConfig.scaleAxis != FlScaleAxis.horizontal &&
-                  transformationConfig.scaleAxis != FlScaleAxis.free,
-            _ => true,
-          },
+          () {
+            final alignment = data.alignment;
+            if (alignment == BarChartAlignment.center ||
+                alignment == BarChartAlignment.end ||
+                alignment == BarChartAlignment.start) {
+              return transformationConfig.scaleAxis != FlScaleAxis.horizontal &&
+                  transformationConfig.scaleAxis != FlScaleAxis.free;
+            }
+            return true;
+          }(),
           'Can not scale horizontally when BarChartAlignment is center, '
           'end or start',
         ),
         super(
+          key: key,
           duration: swapAnimationDuration ?? duration,
           curve: swapAnimationCurve ?? curve,
         );
@@ -112,11 +115,10 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   BarChartData _getData() {
     var newData = widget.data;
     if (newData.minY.isNaN || newData.maxY.isNaN) {
-      final (minY, maxY) =
-          _barChartHelper.calculateMaxAxisValues(newData.barGroups);
+      final results = _barChartHelper.calculateMaxAxisValues(newData.barGroups);
       newData = newData.copyWith(
-        minY: newData.minY.isNaN ? minY : newData.minY,
-        maxY: newData.maxY.isNaN ? maxY : newData.maxY,
+        minY: newData.minY.isNaN ? results.minY : newData.minY,
+        maxY: newData.maxY.isNaN ? results.maxY : newData.maxY,
       );
     }
 

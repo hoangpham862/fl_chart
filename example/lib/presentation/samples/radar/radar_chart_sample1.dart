@@ -4,7 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class RadarChartSample1 extends StatefulWidget {
-  RadarChartSample1({super.key});
+  RadarChartSample1({Key? key}) : super(key: key);
 
   final gridColor = AppColors.contentColorPurple.lighten(80);
   final titleColor = AppColors.contentColorPurple.lighten(80);
@@ -164,18 +164,22 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                 getTitle: (index, angle) {
                   final usedAngle =
                       relativeAngleMode ? angle + angleValue : angleValue;
-                  return switch (index) {
-                    0 => RadarChartTitle(
+                  switch (index) {
+                    case 0:
+                      return RadarChartTitle(
                         text: 'Mobile or Tablet',
                         angle: usedAngle,
-                      ),
-                    2 => RadarChartTitle(
+                      );
+                    case 2:
+                      return RadarChartTitle(
                         text: 'Desktop',
                         angle: usedAngle,
-                      ),
-                    1 => RadarChartTitle(text: 'TV', angle: usedAngle),
-                    _ => const RadarChartTitle(text: '', angle: 0),
-                  };
+                      );
+                    case 1:
+                      return RadarChartTitle(text: 'TV', angle: usedAngle);
+                    default:
+                      return const RadarChartTitle(text: '', angle: 0);
+                  }
                 },
                 tickCount: 1,
                 ticksTextStyle:
@@ -204,11 +208,10 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
 
       return RadarDataSet(
         fillColor: isSelected
-            ? rawDataSet.color.withValues(alpha: 0.2)
-            : rawDataSet.color.withValues(alpha: 0.05),
-        borderColor: isSelected
-            ? rawDataSet.color
-            : rawDataSet.color.withValues(alpha: 0.25),
+            ? rawDataSet.color.withOpacity(0.2)
+            : rawDataSet.color.withOpacity(0.05),
+        borderColor:
+            isSelected ? rawDataSet.color : rawDataSet.color.withOpacity(0.25),
         entryRadius: isSelected ? 3 : 2,
         dataEntries:
             rawDataSet.values.map((e) => RadarEntry(value: e)).toList(),

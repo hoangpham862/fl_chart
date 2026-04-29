@@ -5,9 +5,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class ScatterChartSample1 extends StatefulWidget {
-  ScatterChartSample1({super.key});
+  ScatterChartSample1({Key? key}) : super(key: key);
 
-  final blue1 = AppColors.contentColorBlue.withValues(alpha: 0.5);
+  final blue1 = AppColors.contentColorBlue.withOpacity(0.5);
   final blue2 = AppColors.contentColorBlue;
 
   @override

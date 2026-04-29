@@ -1,19 +1,15 @@
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/candlestick_chart/candlestick_chart_data.dart';
 
 /// Contains anything that helps CandlestickChart works
 class CandlestickChartHelper {
   /// Calculates minX, maxX, minY, and maxY based on [candleSpots],
   /// returns cached values, to prevent redundant calculations.
-  static (
-    double minX,
-    double maxX,
-    double minY,
-    double maxY,
-  ) calculateMaxAxisValues(
+  static FlMinMaxRange calculateMaxAxisValues(
     List<CandlestickSpot> candleSpots,
   ) {
     if (candleSpots.isEmpty) {
-      return (0, 0, 0, 0);
+      return const FlMinMaxRange(0, 0, 0, 0);
     }
 
     var minX = candleSpots[0].x;
@@ -38,6 +34,6 @@ class CandlestickChartHelper {
         minY = spot.low;
       }
     }
-    return (minX, maxX, minY, maxY);
+    return FlMinMaxRange(minX, maxX, minY, maxY);
   }
 }

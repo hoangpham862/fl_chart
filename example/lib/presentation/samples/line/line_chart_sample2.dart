@@ -3,7 +3,7 @@ import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample2 extends StatefulWidget {
-  const LineChartSample2({super.key});
+  const LineChartSample2({Key? key}) : super(key: key);
 
   @override
   State<LineChartSample2> createState() => _LineChartSample2State();
@@ -48,9 +48,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
               'avg',
               style: TextStyle(
                 fontSize: 12,
-                color: showAvg
-                    ? Colors.white.withValues(alpha: 0.5)
-                    : Colors.white,
+                color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
               ),
             ),
           ),
@@ -64,12 +62,19 @@ class _LineChartSample2State extends State<LineChartSample2> {
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
-    String text = switch (value.toInt()) {
-      2 => 'MAR',
-      5 => 'JUN',
-      8 => 'SEP',
-      _ => '',
-    };
+    // String text = switch (value.toInt()) {
+    //   2 => 'MAR',
+    //   5 => 'JUN',
+    //   8 => 'SEP',
+    //   _ => '',
+    // };
+    String text = {
+          2: 'MAR',
+          5: 'JUN',
+          8: 'SEP',
+        }[value.toInt()] ??
+        '';
+    // String text = ['MAR', 'JUN', 'SEP'][value.toInt()];
     return SideTitleWidget(
       meta: meta,
       child: Text(text, style: style),
@@ -81,12 +86,19 @@ class _LineChartSample2State extends State<LineChartSample2> {
       fontWeight: FontWeight.bold,
       fontSize: 15,
     );
-    String text = switch (value.toInt()) {
-      1 => '10K',
-      3 => '30k',
-      5 => '50k',
-      _ => '',
-    };
+    // String text = switch (value.toInt()) {
+    //   1 => '10K',
+    //   3 => '30k',
+    //   5 => '50k',
+    //   _ => '',
+    // };
+    String text = {
+          1: '10K',
+          3: '30k',
+          5: '50k',
+        }[value.toInt()] ??
+        '';
+    // String text = ['10K', '30k', '50k'][value.toInt()];
 
     return Text(text, style: style, textAlign: TextAlign.left);
   }
@@ -168,7 +180,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             show: true,
             gradient: LinearGradient(
               colors: gradientColors
-                  .map((color) => color.withValues(alpha: 0.3))
+                  .map((color) => color.withOpacity(0.3))
                   .toList(),
             ),
           ),
@@ -262,10 +274,10 @@ class _LineChartSample2State extends State<LineChartSample2> {
               colors: [
                 ColorTween(begin: gradientColors[0], end: gradientColors[1])
                     .lerp(0.2)!
-                    .withValues(alpha: 0.1),
+                    .withOpacity(0.1),
                 ColorTween(begin: gradientColors[0], end: gradientColors[1])
                     .lerp(0.2)!
-                    .withValues(alpha: 0.1),
+                    .withOpacity(0.1),
               ],
             ),
           ),

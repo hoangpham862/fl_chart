@@ -7,7 +7,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample1 extends StatefulWidget {
-  BarChartSample1({super.key});
+  BarChartSample1({Key? key}) : super(key: key);
 
   List<Color> get availableColors => const <Color>[
         AppColors.contentColorPurple,
@@ -19,7 +19,7 @@ class BarChartSample1 extends StatefulWidget {
       ];
 
   final Color barBackgroundColor =
-      AppColors.contentColorWhite.darken().withValues(alpha: 0.3);
+      AppColors.contentColorWhite.darken().withAlpha(30);
   final Color barColor = AppColors.contentColorWhite;
   final Color touchedBarColor = AppColors.contentColorGreen;
 
@@ -137,19 +137,11 @@ class BarChartSample1State extends State<BarChartSample1> {
     );
   }
 
-  List<BarChartGroupData> showingGroups() => List.generate(
-        7,
-        (i) => switch (i) {
-          0 => makeGroupData(0, 5, isTouched: i == touchedIndex),
-          1 => makeGroupData(1, 6.5, isTouched: i == touchedIndex),
-          2 => makeGroupData(2, 5, isTouched: i == touchedIndex),
-          3 => makeGroupData(3, 7.5, isTouched: i == touchedIndex),
-          4 => makeGroupData(4, 9, isTouched: i == touchedIndex),
-          5 => makeGroupData(5, 11.5, isTouched: i == touchedIndex),
-          6 => makeGroupData(6, 6.5, isTouched: i == touchedIndex),
-          _ => throw Error(),
-        }
-      );
+  List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
+        final values = [5, 6.5, 5.0, 7.5, 9.0, 11.5, 6.5];
+        return makeGroupData(i, values[i].toDouble(),
+            isTouched: i == touchedIndex);
+      });
 
   BarChartData mainBarData() {
     return BarChartData(
@@ -160,16 +152,15 @@ class BarChartSample1State extends State<BarChartSample1> {
           tooltipHorizontalAlignment: FLHorizontalAlignment.right,
           tooltipMargin: -10,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
-            String weekDay = switch (group.x) {
-              0 => 'Monday',
-              1 => 'Tuesday',
-              2 => 'Wednesday',
-              3 => 'Thursday',
-              4 => 'Friday',
-              5 => 'Saturday',
-              6 => 'Sunday',
-              _ => throw Error(),
-            };
+            String weekDay = [
+              'Monday',
+              'Tuesday',
+              'Wednesday',
+              'Thursday',
+              'Friday',
+              'Saturday',
+              'Sunday'
+            ][group.x];
             return BarTooltipItem(
               '$weekDay\n',
               const TextStyle(
@@ -237,16 +228,17 @@ class BarChartSample1State extends State<BarChartSample1> {
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
-    String text = switch (value.toInt()) {
-      0 => 'M',
-      1 => 'T',
-      2 => 'W',
-      3 => 'T',
-      4 => 'F',
-      5 => 'S',
-      6 => 'S',
-      _ => '',
-    };
+    // String text = switch (value.toInt()) {
+    //   0 => 'M',
+    //   1 => 'T',
+    //   2 => 'W',
+    //   3 => 'T',
+    //   4 => 'F',
+    //   5 => 'S',
+    //   6 => 'S',
+    //   _ => '',
+    // };
+    String text = ['M', 'T', 'W', 'T', 'F', 'S', 'S'][value.toInt()];
     return SideTitleWidget(
       meta: meta,
       space: 16,

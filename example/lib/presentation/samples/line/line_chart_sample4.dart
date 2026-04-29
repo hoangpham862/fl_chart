@@ -9,32 +9,46 @@ class LineChartSample4 extends StatelessWidget {
     Color? belowLineColor,
     Color? aboveLineColor,
   })  : mainLineColor =
-            mainLineColor ?? AppColors.contentColorYellow.withValues(alpha: 1),
+            mainLineColor ?? AppColors.contentColorYellow.withOpacity(1),
         belowLineColor =
-            belowLineColor ?? AppColors.contentColorPink.withValues(alpha: 1),
-        aboveLineColor = aboveLineColor ??
-            AppColors.contentColorPurple.withValues(alpha: 0.7);
+            belowLineColor ?? AppColors.contentColorPink.withOpacity(1),
+        aboveLineColor =
+            aboveLineColor ?? AppColors.contentColorPurple.withOpacity(0.7);
 
   final Color mainLineColor;
   final Color belowLineColor;
   final Color aboveLineColor;
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    String text = switch (value.toInt()) {
-      0 => 'Jan',
-      1 => 'Feb',
-      2 => 'Mar',
-      3 => 'Apr',
-      4 => 'May',
-      5 => 'Jun',
-      6 => 'Jul',
-      7 => 'Aug',
-      8 => 'Sep',
-      9 => 'Oct',
-      10 => 'Nov',
-      11 => 'Dec',
-      _ => '',
-    };
+    // String text = switch (value.toInt()) {
+    //   0 => 'Jan',
+    //   1 => 'Feb',
+    //   2 => 'Mar',
+    //   3 => 'Apr',
+    //   4 => 'May',
+    //   5 => 'Jun',
+    //   6 => 'Jul',
+    //   7 => 'Aug',
+    //   8 => 'Sep',
+    //   9 => 'Oct',
+    //   10 => 'Nov',
+    //   11 => 'Dec',
+    //   _ => '',
+    // };
+    String text = [
+      'JAN',
+      'FEB',
+      'MAR',
+      'APR',
+      'MAY',
+      'JUN',
+      'JUL',
+      'AUG',
+      'SEP',
+      'OCT',
+      'NOV',
+      'DEC'
+    ][value.toInt()];
 
     return SideTitleWidget(
       meta: meta,

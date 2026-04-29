@@ -5,7 +5,7 @@ import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample7 extends StatefulWidget {
-  BarChartSample7({super.key});
+  BarChartSample7({Key? key}) : super(key: key);
 
   final shadowColor = const Color(0xFFCCCCCC);
   final dataList = [
@@ -114,7 +114,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
                   show: true,
                   border: Border.symmetric(
                     horizontal: BorderSide(
-                      color: AppColors.borderColor.withValues(alpha: 0.2),
+                      color: AppColors.borderColor.withOpacity(0.2),
                     ),
                   ),
                 ),
@@ -150,7 +150,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
                   show: true,
                   drawVerticalLine: false,
                   getDrawingHorizontalLine: (value) => FlLine(
-                    color: AppColors.borderColor.withValues(alpha: 0.2),
+                    color: AppColors.borderColor.withOpacity(0.2),
                     strokeWidth: 1,
                   ),
                 ),
@@ -219,8 +219,7 @@ class _IconWidgetState extends AnimatedWidgetBaseState<_IconWidget> {
     final rotation = math.pi * 4 * _rotationTween!.evaluate(animation);
     final scale = 1 + _rotationTween!.evaluate(animation) * 0.5;
     return Transform(
-      transform:
-          Matrix4.rotationZ(rotation).scaledByDouble(scale, scale, scale, 1.0),
+      transform: Matrix4.rotationZ(rotation)..scale(scale, scale, scale),
       origin: const Offset(14, 14),
       child: Icon(
         widget.isSelected ? Icons.face_retouching_natural : Icons.face,

@@ -16,20 +16,20 @@ class LineChartSample3 extends StatefulWidget {
     Color? tooltipBgColor,
     Color? tooltipTextColor,
   })  : lineColor = lineColor ?? AppColors.contentColorRed,
-        indicatorLineColor = indicatorLineColor ??
-            AppColors.contentColorYellow.withValues(alpha: 0.2),
+        indicatorLineColor =
+            indicatorLineColor ?? AppColors.contentColorYellow.withOpacity(0.2),
         indicatorTouchedLineColor =
             indicatorTouchedLineColor ?? AppColors.contentColorYellow,
         indicatorSpotStrokeColor = indicatorSpotStrokeColor ??
-            AppColors.contentColorYellow.withValues(alpha: 0.5),
+            AppColors.contentColorYellow.withOpacity(0.5),
         indicatorTouchedSpotStrokeColor =
             indicatorTouchedSpotStrokeColor ?? AppColors.contentColorYellow,
-        bottomTextColor = bottomTextColor ??
-            AppColors.contentColorYellow.withValues(alpha: 0.2),
+        bottomTextColor =
+            bottomTextColor ?? AppColors.contentColorYellow.withOpacity(0.2),
         bottomTouchedTextColor =
             bottomTouchedTextColor ?? AppColors.contentColorYellow,
-        averageLineColor = averageLineColor ??
-            AppColors.contentColorGreen.withValues(alpha: 0.8),
+        averageLineColor =
+            averageLineColor ?? AppColors.contentColorGreen.withOpacity(0.8),
         tooltipBgColor = tooltipBgColor ?? AppColors.contentColorGreen,
         tooltipTextColor = tooltipTextColor ?? Colors.black;
 
@@ -70,16 +70,23 @@ class _LineChartSample3State extends State<LineChartSample3> {
       return Container();
     }
     final style = TextStyle(
-      color: AppColors.mainTextColor1.withValues(alpha: 0.5),
+      color: AppColors.mainTextColor1.withOpacity(0.5),
       fontSize: 10,
     );
-    String text = switch (value.toInt()) {
-      0 => '',
-      1 => '1k calories',
-      2 => '2k calories',
-      3 => '3k calories',
-      _ => '',
-    };
+    // String text = switch (value.toInt()) {
+    //   0 => '',
+    //   1 => '1k calories',
+    //   2 => '2k calories',
+    //   3 => '3k calories',
+    //   _ => '',
+    // };
+    String text = {
+          1: '1k calories',
+          2: '2k calories',
+          3: '3k calories',
+        }[value.toInt()] ??
+        '';
+    // String text = ['1k calories', '2k calories', '3k calories'][value.toInt()];
 
     return SideTitleWidget(
       meta: meta,
@@ -126,7 +133,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
             Text(
               'Average Line',
               style: TextStyle(
-                color: widget.averageLineColor.withValues(alpha: 1),
+                color: widget.averageLineColor.withOpacity(1),
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
@@ -142,7 +149,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
             Text(
               'Indicators',
               style: TextStyle(
-                color: widget.indicatorLineColor.withValues(alpha: 1),
+                color: widget.indicatorLineColor.withOpacity(1),
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
@@ -204,11 +211,19 @@ class _LineChartSample3State extends State<LineChartSample3> {
                           return null;
                         }
 
-                        TextAlign textAlign = switch (flSpot.x.toInt()) {
-                          1 => TextAlign.left,
-                          5 => TextAlign.right,
-                          _ => TextAlign.center,
-                        };
+                        // TextAlign textAlign = switch (flSpot.x.toInt()) {
+                        //   1 => TextAlign.left,
+                        //   5 => TextAlign.right,
+                        //   _ => TextAlign.center,
+                        // };
+                        TextAlign textAlign = [
+                          TextAlign.left,
+                          TextAlign.center,
+                          TextAlign.center,
+                          TextAlign.center,
+                          TextAlign.center,
+                          TextAlign.right
+                        ][flSpot.x.toInt()];
 
                         return LineTooltipItem(
                           '${widget.weekDays[flSpot.x.toInt()]} \n',
@@ -290,8 +305,8 @@ class _LineChartSample3State extends State<LineChartSample3> {
                       show: true,
                       gradient: LinearGradient(
                         colors: [
-                          widget.lineColor.withValues(alpha: 0.5),
-                          widget.lineColor.withValues(alpha: 0),
+                          widget.lineColor.withOpacity(0.5),
+                          widget.lineColor.withOpacity(0),
                         ],
                         stops: const [0.5, 1.0],
                         begin: Alignment.topCenter,

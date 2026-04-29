@@ -39,17 +39,17 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     ScatterTouchData? scatterTouchData,
     List<int>? showingTooltipIndicators,
     FlGridData? gridData,
-    super.borderData,
+    FlBorderData? borderData,
     double? minX,
     double? maxX,
-    super.baselineX,
+    double? baselineX,
     double? minY,
     double? maxY,
-    super.baselineY,
+    double? baselineY,
     FlClipData? clipData,
-    super.backgroundColor,
+    Color? backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
-    super.rotationQuarterTurns,
+    int? rotationQuarterTurns,
     this.errorIndicatorData =
         const FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>(),
   })  : scatterSpots = scatterSpots ?? const [],
@@ -63,19 +63,24 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           minX: minX ??
               ScatterChartHelper.calculateMaxAxisValues(
                 scatterSpots ?? const [],
-              ).$1,
+              ).minX,
           maxX: maxX ??
               ScatterChartHelper.calculateMaxAxisValues(
                 scatterSpots ?? const [],
-              ).$2,
+              ).maxX,
           minY: minY ??
               ScatterChartHelper.calculateMaxAxisValues(
                 scatterSpots ?? const [],
-              ).$3,
+              ).minY,
           maxY: maxY ??
               ScatterChartHelper.calculateMaxAxisValues(
                 scatterSpots ?? const [],
-              ).$4,
+              ).maxY,
+          baselineX: baselineX,
+          baselineY: baselineY,
+          backgroundColor: backgroundColor,
+          borderData: borderData,
+          rotationQuarterTurns: rotationQuarterTurns ?? 0,
         );
   final List<ScatterSpot> scatterSpots;
   final ScatterTouchData scatterTouchData;
@@ -208,13 +213,13 @@ class ScatterSpot extends FlSpot with EquatableMixin {
   /// [x], and [y] defines the location of spot in the [ScatterChart],
   /// [radius] defines the size of spot, and [color] defines the color of it.
   ScatterSpot(
-    super.x,
-    super.y, {
+    double x,
+    double y, {
     bool? show,
     int? renderPriority,
     FlDotPainter? dotPainter,
-    super.xError,
-    super.yError,
+    FlErrorRange? xError,
+    FlErrorRange? yError,
   })  : show = show ?? true,
         renderPriority = renderPriority ?? 0,
         dotPainter = dotPainter ??
@@ -222,7 +227,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
               radius: 6,
               color:
                   Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
-            );
+            ),
+        super(x, y, xError: xError, yError: yError);
 
   /// Determines show or hide the spot.
   final bool show;

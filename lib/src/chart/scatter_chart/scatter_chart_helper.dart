@@ -1,19 +1,15 @@
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
 
 /// Contains anything that helps ScatterChart works
 class ScatterChartHelper {
   /// Calculates minX, maxX, minY, and maxY based on [scatterSpots],
   /// returns cached values, to prevent redundant calculations.
-  static (
-    double minX,
-    double maxX,
-    double minY,
-    double maxY,
-  ) calculateMaxAxisValues(
+  static FlMinMaxRange calculateMaxAxisValues(
     List<ScatterSpot> scatterSpots,
   ) {
     if (scatterSpots.isEmpty) {
-      return (0, 0, 0, 0);
+      return const FlMinMaxRange(0, 0, 0, 0);
     }
 
     var minX = scatterSpots[0].x;
@@ -38,6 +34,6 @@ class ScatterChartHelper {
         minY = spot.y;
       }
     }
-    return (minX, maxX, minY, maxY);
+    return FlMinMaxRange(minX, maxX, minY, maxY);
   }
 }

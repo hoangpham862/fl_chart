@@ -4,7 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample3 extends StatefulWidget {
-  const BarChartSample3({super.key});
+  const BarChartSample3({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => BarChartSample3State();
@@ -33,16 +33,17 @@ class BarChartSample3State extends State<BarChartSample3> {
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
-    String text = switch (value.toInt()) {
-      0 => 'Mn',
-      1 => 'Te',
-      2 => 'Wd',
-      3 => 'Tu',
-      4 => 'Fr',
-      5 => 'St',
-      6 => 'Sn',
-      _ => '',
-    };
+    // String text = switch (value.toInt()) {
+    //   0 => 'Mn',
+    //   1 => 'Te',
+    //   2 => 'Wd',
+    //   3 => 'Tu',
+    //   4 => 'Fr',
+    //   5 => 'St',
+    //   6 => 'Sn',
+    //   _ => '',
+    // };
+    String text = ['Mn', 'Te', 'Wd', 'Tu', 'Fr', 'St', 'Sn'][value.toInt()];
     return SideTitleWidget(
       meta: meta,
       space: 4,

@@ -4,11 +4,11 @@ import 'package:fl_chart/fl_chart.dart';
 class LineChartHelper {
   /// Calculates the [minX], [maxX], [minY], and [maxY] values of
   /// the provided [lineBarsData].
-  (double minX, double maxX, double minY, double maxY) calculateMaxAxisValues(
+  FlMinMaxRange calculateMaxAxisValues(
     List<LineChartBarData> lineBarsData,
   ) {
     if (lineBarsData.isEmpty) {
-      return (0, 0, 0, 0);
+      return const FlMinMaxRange(0, 0, 0, 0);
     }
 
     final LineChartBarData lineBarData;
@@ -17,7 +17,7 @@ class LineChartHelper {
           lineBarsData.firstWhere((element) => element.spots.isNotEmpty);
     } catch (_) {
       // There is no lineBarData with at least one spot
-      return (0, 0, 0, 0);
+      return const FlMinMaxRange(0, 0, 0, 0);
     }
 
     final FlSpot firstValidSpot;
@@ -26,7 +26,7 @@ class LineChartHelper {
           lineBarData.spots.firstWhere((element) => element != FlSpot.nullSpot);
     } catch (_) {
       // There is no valid spot
-      return (0, 0, 0, 0);
+      return const FlMinMaxRange(0, 0, 0, 0);
     }
 
     var minX = firstValidSpot.x;
@@ -56,6 +56,6 @@ class LineChartHelper {
       }
     }
 
-    return (minX, maxX, minY, maxY);
+    return FlMinMaxRange(minX, maxX, minY, maxY);
   }
 }

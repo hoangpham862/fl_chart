@@ -13,7 +13,7 @@ class CandlestickChart extends ImplicitlyAnimatedWidget {
   const CandlestickChart(
     this.data, {
     this.chartRendererKey,
-    super.key,
+    Key? key,
     @Deprecated('Please use [duration] instead')
     Duration? swapAnimationDuration,
     Duration duration = const Duration(milliseconds: 150),
@@ -21,6 +21,7 @@ class CandlestickChart extends ImplicitlyAnimatedWidget {
     Curve curve = Curves.linear,
     this.transformationConfig = const FlTransformationConfig(),
   }) : super(
+          key: key,
           duration: swapAnimationDuration ?? duration,
           curve: swapAnimationCurve ?? curve,
         );
@@ -49,10 +50,7 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
   /// but we need to keep the provided callback to notify it too.
   BaseTouchCallback<CandlestickTouchResponse>? _providedTouchCallback;
 
-  ({
-    Offset axisCoordinate,
-    int spotIndex,
-  })? touchedSpots;
+  _TouchedSpot? touchedSpots;
 
   @override
   Widget build(BuildContext context) {
@@ -105,15 +103,15 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
                   AxisLinesIndicatorPainter(
                     horizontalLineProvider: (y) => HorizontalLine(
                       y: y,
-                      color: Theme.of(context).colorScheme.outline.withValues(
-                            alpha: 0.5,
+                      color: Theme.of(context).colorScheme.outline.withOpacity(
+                            0.5,
                           ),
                       strokeWidth: 1,
                     ),
                     verticalLineProvider: (x) => VerticalLine(
                       x: x,
-                      color: Theme.of(context).colorScheme.outline.withValues(
-                            alpha: 0.5,
+                      color: Theme.of(context).colorScheme.outline.withOpacity(
+                            0.5,
                           ),
                       strokeWidth: 1,
                     ),
@@ -152,7 +150,7 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
         touchResponse.touchedSpot == null) {
       setState(() {
         if (desiredTouch) {
-          touchedSpots = (
+          touchedSpots = _TouchedSpot(
             axisCoordinate: touchResponse?.touchChartCoordinate ?? Offset.zero,
             spotIndex: -1,
           );
@@ -163,7 +161,7 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
       return;
     }
     setState(() {
-      touchedSpots = (
+      touchedSpots = _TouchedSpot(
         axisCoordinate: touchResponse.touchChartCoordinate,
         spotIndex: touchResponse.touchedSpot!.spotIndex,
       );
@@ -181,4 +179,12 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
       ),
     ) as CandlestickChartDataTween?;
   }
+}
+class _TouchedSpot {
+  final Offset axisCoordinate;
+  final int spotIndex;
+  const _TouchedSpot({
+    required this.axisCoordinate,
+    required this.spotIndex,
+  });
 }

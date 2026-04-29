@@ -406,23 +406,18 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
     final Offset alignedTranslation;
 
     if (_currentAxis != null) {
-      alignedTranslation = switch (widget.panAxis) {
-        PanAxis.horizontal => _alignAxis(translation, Axis.horizontal),
-        PanAxis.vertical => _alignAxis(translation, Axis.vertical),
-        PanAxis.aligned => _alignAxis(translation, _currentAxis!),
-        PanAxis.free => translation,
-      };
+      alignedTranslation = {
+        PanAxis.horizontal: _alignAxis(translation, Axis.horizontal),
+        PanAxis.vertical: _alignAxis(translation, Axis.vertical),
+        PanAxis.aligned: _alignAxis(translation, _currentAxis!),
+        PanAxis.free: translation,
+      }[widget.panAxis]!;
     } else {
       alignedTranslation = translation;
     }
 
     final nextMatrix = matrix.clone()
-      ..translateByDouble(
-        alignedTranslation.dx,
-        alignedTranslation.dy,
-        0,
-        1,
-      );
+      ..translate(alignedTranslation.dx, alignedTranslation.dy);
 
     // Transform the viewport to determine where its four corners will be after
     // the child has been transformed.
@@ -531,16 +526,16 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
       widget.maxScale,
     );
     final clampedScale = clampedTotalScale / currentScale;
-    return matrix.clone()
-      ..scaleByDouble(clampedScale, clampedScale, clampedScale, 1);
+    return matrix.clone()..scale(clampedScale, clampedScale, clampedScale);
   }
 
   // Returns true iff the given _GestureType is enabled.
   bool _gestureIsSupported(_GestureType? gestureType) {
-    return switch (gestureType) {
-      _GestureType.scale => widget.scaleEnabled,
-      _GestureType.pan || null => widget.panEnabled,
-    };
+    return {
+          _GestureType.scale: widget.scaleEnabled,
+          _GestureType.pan: widget.panEnabled,
+        }[gestureType] ??
+        false;
   }
 
   // Decide which type of gesture this is by comparing the amount of scale
@@ -643,6 +638,7 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
         if (_round(_referenceFocalPoint!) != _round(focalPointSceneCheck)) {
           _referenceFocalPoint = focalPointSceneCheck;
         }
+        break;
 
       case _GestureType.pan:
         assert(_referenceFocalPoint != null);
@@ -720,6 +716,7 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
         _controller.duration = Duration(milliseconds: (tFinal * 1000).round());
         _animation!.addListener(_onAnimate);
         unawaited(_controller.forward());
+        break;
       case _GestureType.scale:
         if (details.scaleVelocity.abs() < 0.1) {
           _currentAxis = null;
@@ -748,6 +745,7 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
             Duration(milliseconds: (tFinal * 1000).round());
         _scaleAnimation!.addListener(_onScaleAnimate);
         unawaited(_scaleController.forward());
+        break;
       case null:
         break;
     }
@@ -1112,9 +1110,12 @@ Offset _getMatrixTranslation(Matrix4 matrix) {
 // the given amount.
 Quad _getAxisAlignedBoundingBoxWithRotation(Rect rect, double rotation) {
   final rotationMatrix = Matrix4.identity()
-    ..translateByDouble(rect.size.width / 2, rect.size.height / 2, 0, 1)
+    ..translate(
+      rect.size.width / 2,
+      rect.size.height / 2,
+    )
     ..rotateZ(rotation)
-    ..translateByDouble(-rect.size.width / 2, -rect.size.height / 2, 0, 1);
+    ..translate(-rect.size.width / 2, -rect.size.height / 2);
   final boundariesRotated = Quad.points(
     rotationMatrix.transform3(Vector3(rect.left, rect.top, 0)),
     rotationMatrix.transform3(Vector3(rect.right, rect.top, 0)),
@@ -1165,10 +1166,10 @@ Offset _round(Offset offset) {
 // Align the given offset to the given axis by allowing movement only in the
 // axis direction.
 Offset _alignAxis(Offset offset, Axis axis) {
-  return switch (axis) {
-    Axis.horizontal => Offset(offset.dx, 0),
-    Axis.vertical => Offset(0, offset.dy),
-  };
+  return {
+    Axis.horizontal: Offset(offset.dx, 0),
+    Axis.vertical: Offset(0, offset.dy),
+  }[axis]!;
 }
 
 // Given two points, return the axis where the distance between the points is

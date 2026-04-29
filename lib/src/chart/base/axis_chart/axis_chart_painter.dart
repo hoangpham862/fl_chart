@@ -156,7 +156,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
   @visibleForTesting
   void drawBackground(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
     final data = holder.data;
-    if (data.backgroundColor.a == 0.0) {
+    if (data.backgroundColor.alpha == 0) {
       return;
     }
 
@@ -321,7 +321,6 @@ abstract class AxisChartPainter<D extends AxisChartData>
           )..layout();
 
           switch (label.direction) {
-            case LabelDirection.horizontal:
             case LabelDirection.horizontalMirrored:
               canvasWrapper.drawText(
                 tp,
@@ -337,6 +336,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
                     ? -180
                     : null,
               );
+              break;
             case LabelDirection.vertical:
               canvasWrapper.drawVerticalText(
                 tp,
@@ -349,6 +349,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
                   ),
                 ),
               );
+              break;
             case LabelDirection.verticalMirrored:
               canvasWrapper.drawVerticalText(
                 tp,
@@ -444,7 +445,6 @@ abstract class AxisChartPainter<D extends AxisChartData>
           )..layout();
 
           switch (label.direction) {
-            case LabelDirection.horizontal:
             case LabelDirection.horizontalMirrored:
               canvasWrapper.drawText(
                 tp,
@@ -460,6 +460,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
                     ? -180
                     : null,
               );
+              break;
             case LabelDirection.vertical:
               canvasWrapper.drawVerticalText(
                 tp,
@@ -472,6 +473,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
                   ),
                 ),
               );
+              break;
             case LabelDirection.verticalMirrored:
               canvasWrapper.drawVerticalText(
                 tp,
@@ -593,12 +595,19 @@ abstract class AxisChartPainter<D extends AxisChartData>
     double tooltipWidth,
     FLHorizontalAlignment tooltipHorizontalAlignment,
     double tooltipHorizontalOffset,
-  ) =>
-      switch (tooltipHorizontalAlignment) {
-        FLHorizontalAlignment.center =>
-          dx - (tooltipWidth / 2) + tooltipHorizontalOffset,
-        FLHorizontalAlignment.right => dx + tooltipHorizontalOffset,
-        FLHorizontalAlignment.left =>
-          dx - tooltipWidth + tooltipHorizontalOffset,
-      };
+  ) {
+    double tooltipX;
+    switch (tooltipHorizontalAlignment) {
+      case FLHorizontalAlignment.center:
+        tooltipX = dx - (tooltipWidth / 2) + tooltipHorizontalOffset;
+        break;
+      case FLHorizontalAlignment.right:
+        tooltipX = dx + tooltipHorizontalOffset;
+        break;
+      case FLHorizontalAlignment.left:
+        tooltipX = dx - tooltipWidth + tooltipHorizontalOffset;
+        break;
+    }
+    return tooltipX;
+  }
 }

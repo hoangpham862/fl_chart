@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PieChartSample3 extends StatefulWidget {
-  const PieChartSample3({super.key});
+  const PieChartSample3({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => PieChartSample3State();
@@ -55,91 +55,93 @@ class PieChartSample3State extends State {
       final widgetSize = isTouched ? 55.0 : 40.0;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
-      return switch (i) {
-        0 =>
-            PieChartSectionData(
-              color: AppColors.contentColorBlue,
-              value: 40,
-              title: '40%',
-              radius: radius,
-              titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff),
-                shadows: shadows,
-              ),
-              badgeWidget: _Badge(
-                'assets/icons/ophthalmology-svgrepo-com.svg',
-                size: widgetSize,
-                borderColor: AppColors.contentColorBlack,
-              ),
-              badgePositionPercentageOffset: .98,
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: AppColors.contentColorBlue,
+            value: 40,
+            title: '40%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff),
+              shadows: shadows,
             ),
-        1 =>
-            PieChartSectionData(
-              color: AppColors.contentColorYellow,
-              value: 30,
-              title: '30%',
-              radius: radius,
-              titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff),
-                shadows: shadows,
-              ),
-              badgeWidget: _Badge(
-                'assets/icons/librarian-svgrepo-com.svg',
-                size: widgetSize,
-                borderColor: AppColors.contentColorBlack,
-              ),
-              badgePositionPercentageOffset: .98,
+            badgeWidget: _Badge(
+              'assets/icons/ophthalmology-svgrepo-com.svg',
+              size: widgetSize,
+              borderColor: AppColors.contentColorBlack,
             ),
-        2 =>
-            PieChartSectionData(
-              color: AppColors.contentColorPurple,
-              value: 16,
-              title: '16%',
-              radius: radius,
-              titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff),
-                shadows: shadows,
-              ),
-              badgeWidget: _Badge(
-                'assets/icons/fitness-svgrepo-com.svg',
-                size: widgetSize,
-                borderColor: AppColors.contentColorBlack,
-              ),
-              badgePositionPercentageOffset: .98,
+            badgePositionPercentageOffset: .98,
+          );
+        case 1:
+          return PieChartSectionData(
+            color: AppColors.contentColorYellow,
+            value: 30,
+            title: '30%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff),
+              shadows: shadows,
             ),
-        3 =>
-            PieChartSectionData(
-              color: AppColors.contentColorGreen,
-              value: 15,
-              title: '15%',
-              radius: radius,
-              titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff),
-                shadows: shadows,
-              ),
-              badgeWidget: _Badge(
-                'assets/icons/worker-svgrepo-com.svg',
-                size: widgetSize,
-                borderColor: AppColors.contentColorBlack,
-              ),
-              badgePositionPercentageOffset: .98,
+            badgeWidget: _Badge(
+              'assets/icons/librarian-svgrepo-com.svg',
+              size: widgetSize,
+              borderColor: AppColors.contentColorBlack,
             ),
-        _ => throw StateError('Invalid'),
-      };
+            badgePositionPercentageOffset: .98,
+          );
+        case 2:
+          return PieChartSectionData(
+            color: AppColors.contentColorPurple,
+            value: 16,
+            title: '16%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff),
+              shadows: shadows,
+            ),
+            badgeWidget: _Badge(
+              'assets/icons/fitness-svgrepo-com.svg',
+              size: widgetSize,
+              borderColor: AppColors.contentColorBlack,
+            ),
+            badgePositionPercentageOffset: .98,
+          );
+        case 3:
+          return PieChartSectionData(
+            color: AppColors.contentColorGreen,
+            value: 15,
+            title: '15%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff),
+              shadows: shadows,
+            ),
+            badgeWidget: _Badge(
+              'assets/icons/worker-svgrepo-com.svg',
+              size: widgetSize,
+              borderColor: AppColors.contentColorBlack,
+            ),
+            badgePositionPercentageOffset: .98,
+          );
+        default:
+          throw StateError('Invalid');
+      }
     });
   }
 }
 
 class _Badge extends StatelessWidget {
-  const _Badge(this.svgAsset, {
+  const _Badge(
+    this.svgAsset, {
     required this.size,
     required this.borderColor,
   });
@@ -163,7 +165,7 @@ class _Badge extends StatelessWidget {
         ),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.black.withValues(alpha: .5),
+            color: Colors.black.withOpacity(.5),
             offset: const Offset(3, 3),
             blurRadius: 3,
           ),

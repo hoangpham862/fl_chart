@@ -43,16 +43,25 @@ class _LineChartSample5State extends State<LineChartSample5> {
       fontFamily: 'Digital',
       fontSize: 18 * chartWidth / 500,
     );
-    String text = switch (value.toInt()) {
-      0 => '00:00',
-      1 => '04:00',
-      2 => '08:00',
-      3 => '12:00',
-      4 => '16:00',
-      5 => '20:00',
-      6 => '23:59',
-      _ => '',
-    };
+    // String text = switch (value.toInt()) {
+    //   0 => '00:00',
+    //   1 => '04:00',
+    //   2 => '08:00',
+    //   3 => '12:00',
+    //   4 => '16:00',
+    //   5 => '20:00',
+    //   6 => '23:59',
+    //   _ => '',
+    // };
+    String text = [
+      '00:00',
+      '04:00',
+      '08:00',
+      '12:00',
+      '16:00',
+      '20:00',
+      '23:59'
+    ][value.toInt()];
     if (text.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -77,9 +86,9 @@ class _LineChartSample5State extends State<LineChartSample5> {
           show: true,
           gradient: LinearGradient(
             colors: [
-              widget.gradientColor1.withValues(alpha: 0.4),
-              widget.gradientColor2.withValues(alpha: 0.4),
-              widget.gradientColor3.withValues(alpha: 0.4),
+              widget.gradientColor1.withOpacity(0.4),
+              widget.gradientColor2.withOpacity(0.4),
+              widget.gradientColor3.withOpacity(0.4),
             ],
           ),
         ),

@@ -11,9 +11,9 @@ class ChartSamplesPage extends StatelessWidget {
   final samples = ChartSamples.samples;
 
   ChartSamplesPage({
-    super.key,
+    Key? key,
     required this.chartType,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

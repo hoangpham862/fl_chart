@@ -6,10 +6,10 @@ import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample8 extends StatefulWidget {
-  BarChartSample8({super.key});
+  BarChartSample8({Key? key}) : super(key: key);
 
   final Color barBackgroundColor =
-      AppColors.contentColorWhite.darken().withValues(alpha: 0.3);
+      AppColors.contentColorWhite.darken().withOpacity(0.3);
   final Color barColor = AppColors.contentColorWhite;
 
   @override
@@ -169,6 +169,6 @@ class BarChartSample1State extends State<BarChartSample8> {
         capLength: 14,
         lineColor: input.groupIndex < 4
             ? AppColors.contentColorOrange
-            : AppColors.primary.withValues(alpha: 0.5),
+            : AppColors.primary.withOpacity(0.5),
       );
 }

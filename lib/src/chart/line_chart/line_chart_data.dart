@@ -43,27 +43,37 @@ class LineChartData extends AxisChartData with EquatableMixin {
   LineChartData({
     this.lineBarsData = const [],
     this.betweenBarsData = const [],
-    super.titlesData = const FlTitlesData(),
-    super.extraLinesData = const ExtraLinesData(),
+    FlTitlesData titlesData = const FlTitlesData(),
+    ExtraLinesData extraLinesData = const ExtraLinesData(),
     this.lineTouchData = const LineTouchData(),
     this.showingTooltipIndicators = const [],
-    super.gridData = const FlGridData(),
-    super.borderData,
-    super.rangeAnnotations = const RangeAnnotations(),
+    FlGridData gridData = const FlGridData(),
+    FlBorderData? borderData,
+    RangeAnnotations rangeAnnotations = const RangeAnnotations(),
     double? minX,
     double? maxX,
-    super.baselineX,
+    double? baselineX,
     double? minY,
     double? maxY,
-    super.baselineY,
-    super.clipData = const FlClipData.none(),
-    super.backgroundColor,
-    super.rotationQuarterTurns,
+    double? baselineY,
+    FlClipData clipData = const FlClipData.none(),
+    Color? backgroundColor,
+    int? rotationQuarterTurns,
   }) : super(
+          titlesData: titlesData,
+          extraLinesData: extraLinesData,
+          gridData: gridData,
+          borderData: borderData,
+          rangeAnnotations: rangeAnnotations,
           minX: minX ?? double.nan,
           maxX: maxX ?? double.nan,
           minY: minY ?? double.nan,
           maxY: maxY ?? double.nan,
+          baselineX: baselineX,
+          baselineY: baselineY,
+          clipData: clipData,
+          backgroundColor: backgroundColor,
+          rotationQuarterTurns: rotationQuarterTurns ?? 0,
         );
 
   /// [LineChart] draws some lines in various shapes and overlaps them.
@@ -565,7 +575,7 @@ class BarAreaData with EquatableMixin {
     this.applyCutOffY = false,
   }) : color = color ??
             ((color == null && gradient == null)
-                ? Colors.blueGrey.withValues(alpha: 0.5)
+                ? Colors.blueGrey.withOpacity(0.5)
                 : null);
 
   final bool show;
@@ -621,7 +631,7 @@ class BetweenBarsData with EquatableMixin {
     this.gradient,
   }) : color = color ??
             ((color == null && gradient == null)
-                ? Colors.blueGrey.withValues(alpha: 0.5)
+                ? Colors.blueGrey.withOpacity(0.5)
                 : null);
 
   /// The index of the lineBarsData from where the area has to be rendered
@@ -1371,7 +1381,8 @@ class LineChartSpotErrorRangeCallbackInput
 
 /// It lerps a [LineChartData] to another [LineChartData] (handles animation for updating values)
 class LineChartDataTween extends Tween<LineChartData> {
-  LineChartDataTween({required super.begin, required super.end});
+  LineChartDataTween({required LineChartData begin, required LineChartData end})
+      : super(begin: begin, end: end);
 
   /// Lerps a [LineChartData] based on [t] value, check [Tween.lerp].
   @override

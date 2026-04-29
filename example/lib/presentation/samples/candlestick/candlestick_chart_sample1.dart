@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CandlestickChartSample1 extends StatefulWidget {
-  const CandlestickChartSample1({super.key});
+  const CandlestickChartSample1({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => CandlestickChartSample1State();
@@ -40,7 +40,7 @@ class CandlestickChartSample1State extends State<CandlestickChartSample1> {
     ];
     _loadData();
     _gridLine = FlLine(
-      color: Colors.blueGrey.withValues(alpha: 0.4),
+      color: Colors.blueGrey.withOpacity(0.4),
       strokeWidth: 0.4,
       dashArray: [8, 4],
     );
@@ -217,7 +217,7 @@ class CandlestickChartSample1State extends State<CandlestickChartSample1> {
                               color: (data.isUp
                                       ? AppColors.contentColorGreen
                                       : AppColors.contentColorRed)
-                                  .withValues(alpha: 0.5),
+                                  .withOpacity(0.5),
                               strokeWidth: 1,
                             );
                           },
@@ -233,8 +233,8 @@ class CandlestickChartSample1State extends State<CandlestickChartSample1> {
                                 labelResolver: (hLine) =>
                                     hLine.y.toInt().toString(),
                                 alignment: Alignment.topLeft),
-                            color: AppColors.contentColorYellow.withValues(
-                              alpha: 0.8,
+                            color: AppColors.contentColorYellow.withOpacity(
+                              0.8,
                             ),
                             strokeWidth: 1,
                           ),

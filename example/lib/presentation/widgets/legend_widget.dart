@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class LegendWidget extends StatelessWidget {
   const LegendWidget({
-    super.key,
+    Key? key,
     required this.name,
     required this.color,
-  });
+  }) : super(key: key);
   final String name;
   final Color color;
 
@@ -37,9 +37,9 @@ class LegendWidget extends StatelessWidget {
 
 class LegendsListWidget extends StatelessWidget {
   const LegendsListWidget({
-    super.key,
+    Key? key,
     required this.legends,
-  });
+  }) : super(key: key);
   final List<Legend> legends;
 
   @override

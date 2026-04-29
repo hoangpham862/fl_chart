@@ -53,19 +53,19 @@ class SideTitleWidget extends StatefulWidget {
 }
 
 class _SideTitleWidgetState extends State<SideTitleWidget> {
-  Alignment _getAlignment() => switch (widget.meta.axisSide) {
-        AxisSide.left => Alignment.centerRight,
-        AxisSide.top => Alignment.bottomCenter,
-        AxisSide.right => Alignment.centerLeft,
-        AxisSide.bottom => Alignment.topCenter,
-      };
+  Alignment _getAlignment() => const {
+        AxisSide.left: Alignment.centerRight,
+        AxisSide.top: Alignment.bottomCenter,
+        AxisSide.right: Alignment.centerLeft,
+        AxisSide.bottom: Alignment.topCenter,
+      }[widget.meta.axisSide]!;
 
-  EdgeInsets _getMargin() => switch (widget.meta.axisSide) {
-        AxisSide.left => EdgeInsets.only(right: widget.space),
-        AxisSide.top => EdgeInsets.only(bottom: widget.space),
-        AxisSide.right => EdgeInsets.only(left: widget.space),
-        AxisSide.bottom => EdgeInsets.only(top: widget.space),
-      };
+  EdgeInsets _getMargin() => {
+        AxisSide.left: EdgeInsets.only(right: widget.space),
+        AxisSide.top: EdgeInsets.only(bottom: widget.space),
+        AxisSide.right: EdgeInsets.only(left: widget.space),
+        AxisSide.bottom: EdgeInsets.only(top: widget.space),
+      }[widget.meta.axisSide]!;
 
   /// Calculate child width/height
   final GlobalKey widgetKey = GlobalKey();
@@ -82,10 +82,12 @@ class _SideTitleWidgetState extends State<SideTitleWidget> {
     if (context == null) return;
 
     // Set size based on its axis side
-    final size = switch (widget.meta.axisSide) {
-      AxisSide.left || AxisSide.right => context.size?.height ?? 0,
-      AxisSide.top || AxisSide.bottom => context.size?.width ?? 0,
-    };
+    final size = {
+      AxisSide.left: context.size?.height ?? 0,
+      AxisSide.right: context.size?.height ?? 0,
+      AxisSide.top: context.size?.width ?? 0,
+      AxisSide.bottom: context.size?.width ?? 0,
+    }[widget.meta.axisSide]!;
 
     // If childSize is the same, no need to set new value
     if (_childSize == size) return;

@@ -29,7 +29,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
-    super.borderData,
+    FlBorderData? borderData,
     ExtraLinesData? extraLinesData,
     this.rotationQuarterTurns = 0,
   })  : gridData = gridData ?? const FlGridData(),
@@ -38,7 +38,8 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         baselineY = baselineY ?? 0,
         clipData = clipData ?? const FlClipData.none(),
         backgroundColor = backgroundColor ?? Colors.transparent,
-        extraLinesData = extraLinesData ?? const ExtraLinesData();
+        extraLinesData = extraLinesData ?? const ExtraLinesData(),
+        super(borderData: borderData);
   final FlGridData gridData;
   final FlTitlesData titlesData;
   final RangeAnnotations rangeAnnotations;
@@ -105,7 +106,9 @@ enum AxisSide {
   top,
   right,
   bottom;
+}
 
+extension AxisSideExtension on AxisSide {
   AxisSide rotateByQuarterTurns(int quarterTurns) {
     const values = AxisSide.values;
     return values[(values.indexOf(this) + quarterTurns) % values.length];
@@ -592,6 +595,32 @@ class FlSpot {
   @override
   int get hashCode =>
       x.hashCode ^ y.hashCode ^ xError.hashCode ^ yError.hashCode;
+}
+
+/// Represents a simple MinMax pair of doubles.
+/// Used to replace Dart 3 Records (double, double).
+class FlMinMax {
+  const FlMinMax(this.min, this.max);
+  final double min;
+  final double max;
+}
+
+/// Represents a range of MinMax values for both X and Y axes.
+/// Used to replace Dart 3 Records (double, double, double, double).
+class FlMinMaxRange {
+  const FlMinMaxRange(this.minX, this.maxX, this.minY, this.maxY);
+  final double minX;
+  final double maxX;
+  final double minY;
+  final double maxY;
+}
+
+/// Represents a hit test result.
+/// Used to replace Dart 3 Records (bool, double).
+class FlHitTestResult {
+  const FlHitTestResult(this.isHit, this.distance);
+  final bool isHit;
+  final double distance;
 }
 
 /// Represents a range of values that can be used to show error bars/threshold
@@ -1496,7 +1525,7 @@ class FlDotCirclePainter extends FlDotPainter {
   /// Implementation of the parent class to draw the circle
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
-    if (strokeWidth != 0.0 && strokeColor.a != 0.0) {
+    if (strokeWidth != 0.0 && strokeColor.alpha != 0) {
       canvas.drawCircle(
         offsetInCanvas,
         radius + (strokeWidth / 2),
@@ -1593,7 +1622,7 @@ class FlDotSquarePainter extends FlDotPainter {
   /// Implementation of the parent class to draw the square
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
-    if (strokeWidth != 0.0 && strokeColor.a != 0.0) {
+    if (strokeWidth != 0.0 && strokeColor.alpha != 0) {
       canvas.drawRect(
         Rect.fromCircle(
           center: offsetInCanvas,
@@ -2256,7 +2285,6 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
 
       switch (label.direction) {
         case LabelDirection.horizontal:
-        case LabelDirection.horizontalMirrored:
           canvasWrapper.drawText(
             tp,
             label.alignment.withinRect(
@@ -2268,6 +2296,7 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
               ),
             ),
           );
+          break;
         case LabelDirection.vertical:
         case LabelDirection.verticalMirrored:
           canvasWrapper.drawVerticalText(
@@ -2368,6 +2397,7 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
               ),
             ),
           );
+          break;
         case LabelDirection.vertical:
         case LabelDirection.verticalMirrored:
           canvasWrapper.drawVerticalText(

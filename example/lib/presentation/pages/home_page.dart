@@ -14,9 +14,9 @@ import 'chart_samples_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({
-    super.key,
+    Key? key,
     required this.showingChartType,
-  }) {
+  }) : super(key: key) {
     _initMenuItems();
   }
 

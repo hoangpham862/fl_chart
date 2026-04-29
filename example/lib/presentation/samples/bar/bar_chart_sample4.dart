@@ -4,7 +4,7 @@ import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample4 extends StatefulWidget {
-  BarChartSample4({super.key});
+  BarChartSample4({Key? key}) : super(key: key);
 
   final Color dark = AppColors.contentColorCyan.darken(60);
   final Color normal = AppColors.contentColorCyan.darken(30);
@@ -17,14 +17,15 @@ class BarChartSample4 extends StatefulWidget {
 class BarChartSample4State extends State<BarChartSample4> {
   Widget bottomTitles(double value, TitleMeta meta) {
     const style = TextStyle(fontSize: 10);
-    String text = switch (value.toInt()) {
-      0 => 'Apr',
-      1 => 'May',
-      2 => 'Jun',
-      3 => 'Jul',
-      4 => 'Aug',
-      _ => '',
-    };
+    // String text = switch (value.toInt()) {
+    //   0 => 'Apr',
+    //   1 => 'May',
+    //   2 => 'Jun',
+    //   3 => 'Jul',
+    //   4 => 'Aug',
+    //   _ => '',
+    // };
+    String text = ['Apr', 'May', 'Jun', 'Jul', 'Aug'][value.toInt()];
     return SideTitleWidget(
       meta: meta,
       child: Text(text, style: style),
@@ -90,7 +91,7 @@ class BarChartSample4State extends State<BarChartSample4> {
                   show: true,
                   checkToShowHorizontalLine: (value) => value % 10 == 0,
                   getDrawingHorizontalLine: (value) => FlLine(
-                    color: AppColors.borderColor.withValues(alpha: 0.1),
+                    color: AppColors.borderColor.withAlpha(10),
                     strokeWidth: 1,
                   ),
                   drawVerticalLine: false,

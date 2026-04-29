@@ -342,8 +342,7 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
   ) {
     final data = holder.data;
 
-    final touchedSpots =
-        <({CandlestickSpot spot, int index, double distance})>[];
+    final touchedSpots = <_CandlestickTouchedSpotData>[];
     for (var i = data.candlestickSpots.length - 1; i >= 0; i--) {
       // Reverse the loop to check the topmost spot first
       final spot = data.candlestickSpots[i];
@@ -353,15 +352,17 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
 
       final spotPixelX = getPixelX(spot.x, viewSize, holder);
 
-      final (hit, distance) = holder.targetData.candlestickPainter.hitTest(
+      final result = holder.targetData.candlestickPainter.hitTest(
         spot,
         spotPixelX,
         localPosition.dx,
         holder.data.candlestickTouchData.touchSpotThreshold,
       );
+      final hit = result.isHit;
+      final distance = result.distance;
       if (hit) {
         touchedSpots.add(
-          (
+          _CandlestickTouchedSpotData(
             spot: spot,
             index: i,
             distance: distance,
@@ -378,4 +379,16 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
     final closestSpot = touchedSpots.first;
     return CandlestickTouchedSpot(closestSpot.spot, closestSpot.index);
   }
+}
+
+class _CandlestickTouchedSpotData {
+  const _CandlestickTouchedSpotData({
+    required this.spot,
+    required this.index,
+    required this.distance,
+  });
+
+  final CandlestickSpot spot;
+  final int index;
+  final double distance;
 }

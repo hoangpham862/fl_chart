@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class LineChartSample9 extends StatelessWidget {
-  LineChartSample9({super.key});
+  LineChartSample9({Key? key}) : super(key: key);
 
   final spots = List.generate(101, (i) => (i - 50) / 10)
       .map((x) => FlSpot(x, cos(x)))
@@ -130,12 +130,12 @@ class LineChartSample9 extends StatelessWidget {
                     return value.toInt() == 0;
                   },
                   getDrawingHorizontalLine: (_) => FlLine(
-                    color: AppColors.contentColorBlue.withValues(alpha: 1),
+                    color: AppColors.contentColorBlue.withOpacity(1),
                     dashArray: [8, 2],
                     strokeWidth: 0.8,
                   ),
                   getDrawingVerticalLine: (_) => FlLine(
-                    color: AppColors.contentColorYellow.withValues(alpha: 1),
+                    color: AppColors.contentColorYellow.withOpacity(1),
                     dashArray: [8, 2],
                     strokeWidth: 0.8,
                   ),

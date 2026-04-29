@@ -6,11 +6,11 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 class BarChartHelper {
   /// Calculates minY, and maxY based on [barGroups],
   /// returns cached values, to prevent redundant calculations.
-  (double minY, double maxY) calculateMaxAxisValues(
+  BarChartMinMaxValues calculateMaxAxisValues(
     List<BarChartGroupData> barGroups,
   ) {
     if (barGroups.isEmpty) {
-      return (0, 0);
+      return BarChartMinMaxValues(0, 0);
     }
 
     final BarChartGroupData barGroup;
@@ -18,7 +18,7 @@ class BarChartHelper {
       barGroup = barGroups.firstWhere((element) => element.barRods.isNotEmpty);
     } catch (_) {
       // There is no barChartGroupData with at least one barRod
-      return (0, 0);
+      return BarChartMinMaxValues(0, 0);
     }
 
     var maxY = max(barGroup.barRods[0].fromY, barGroup.barRods[0].toY);
@@ -43,6 +43,13 @@ class BarChartHelper {
         }
       }
     }
-    return (minY, maxY);
+    return BarChartMinMaxValues(minY, maxY);
   }
+}
+
+class BarChartMinMaxValues {
+  final double minY;
+  final double maxY;
+
+  BarChartMinMaxValues(this.minY, this.maxY);
 }

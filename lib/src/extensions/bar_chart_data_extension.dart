@@ -33,6 +33,7 @@ extension BarChartDataExtension on BarChartData {
         if (tempX > viewWidth) {
           spaceEvenly();
         }
+        break;
 
       case BarChartAlignment.end:
         sumWidth += groupsSpace * (barGroups.length - 1);
@@ -49,6 +50,7 @@ extension BarChartDataExtension on BarChartData {
         if (tempX > viewWidth) {
           spaceEvenly();
         }
+        break;
 
       case BarChartAlignment.center:
         sumWidth += groupsSpace * (barGroups.length - 1);
@@ -65,6 +67,7 @@ extension BarChartDataExtension on BarChartData {
         if (tempX > viewWidth) {
           spaceEvenly();
         }
+        break;
 
       case BarChartAlignment.spaceBetween:
         final eachSpace = spaceAvailable / (barGroups.length - 1);
@@ -78,7 +81,7 @@ extension BarChartDataExtension on BarChartData {
           groupsX[index] = tempX;
           tempX += group.width / 2;
         });
-
+        break;
       case BarChartAlignment.spaceAround:
         final eachSpace = spaceAvailable / (barGroups.length * 2);
 
@@ -90,6 +93,7 @@ extension BarChartDataExtension on BarChartData {
           tempX += group.width / 2;
           tempX += eachSpace;
         });
+        break;
 
       case BarChartAlignment.spaceEvenly:
         spaceEvenly();

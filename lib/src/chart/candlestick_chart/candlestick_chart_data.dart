@@ -38,17 +38,17 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
     CandlestickTouchData? candlestickTouchData,
     List<int>? showingTooltipIndicators,
     FlGridData? gridData,
-    super.borderData,
+    FlBorderData? borderData,
     double? minX,
     double? maxX,
-    super.baselineX,
+    double? baselineX,
     double? minY,
     double? maxY,
-    super.baselineY,
-    super.rangeAnnotations,
+    double? baselineY,
+    RangeAnnotations? rangeAnnotations,
     FlClipData? clipData,
-    super.backgroundColor,
-    super.rotationQuarterTurns,
+    Color? backgroundColor,
+    int? rotationQuarterTurns,
     this.touchedPointIndicator,
   })  : candlestickSpots = candlestickSpots ?? const [],
         candlestickPainter = candlestickPainter ?? DefaultCandlestickPainter(),
@@ -61,19 +61,25 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
           minX: minX ??
               CandlestickChartHelper.calculateMaxAxisValues(
                 candlestickSpots ?? const [],
-              ).$1,
+              ).minX,
           maxX: maxX ??
               CandlestickChartHelper.calculateMaxAxisValues(
                 candlestickSpots ?? const [],
-              ).$2,
+              ).maxX,
           minY: minY ??
               CandlestickChartHelper.calculateMaxAxisValues(
                 candlestickSpots ?? const [],
-              ).$3,
+              ).minY,
           maxY: maxY ??
               CandlestickChartHelper.calculateMaxAxisValues(
                 candlestickSpots ?? const [],
-              ).$4,
+              ).maxY,
+          baselineX: baselineX,
+          baselineY: baselineY,
+          rangeAnnotations: rangeAnnotations,
+          backgroundColor: backgroundColor,
+          borderData: borderData,
+          rotationQuarterTurns: rotationQuarterTurns ?? 0,
         );
 
   /// Contains the data for the candlestick chart.
@@ -776,7 +782,7 @@ abstract class FlCandlestickPainter with EquatableMixin {
   /// Used to implement touch behaviour of this dot, for example,
   /// it behaves like a square of [getSize]
   /// Check [DefaultCandlestickPainter.hitTest] for an example of an implementation
-  (bool, double) hitTest(
+  FlHitTestResult hitTest(
     CandlestickSpot spot,
     double touchedX,
     double spotX,
@@ -784,7 +790,7 @@ abstract class FlCandlestickPainter with EquatableMixin {
   ) {
     final distance = (touchedX - spotX).abs();
     final hit = distance <= extraTouchThreshold;
-    return (hit, distance);
+    return FlHitTestResult(hit, distance);
   }
 }
 
@@ -846,7 +852,7 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
     final bodyHighCanvas = min(openYOffsetInCanvas, closeYOffsetInCanvas);
     final bodyLowCanvas = max(openYOffsetInCanvas, closeYOffsetInCanvas);
 
-    if (style.lineWidth > 0 && style.lineColor.a > 0) {
+    if (style.lineWidth > 0 && style.lineColor.alpha != 0) {
       canvas
         // Bottom line
         ..drawLine(
@@ -873,7 +879,7 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
       xOffsetInCanvas + style.bodyWidth / 2,
       bodyLowCanvas,
     );
-    if (style.bodyFillColor.a > 0 && style.bodyWidth > 0) {
+    if (style.bodyFillColor.alpha != 0 && style.bodyWidth > 0) {
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           bodyRect,
@@ -884,7 +890,7 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
           ..style = PaintingStyle.fill,
       );
     }
-    if (style.bodyStrokeWidth > 0 && style.bodyStrokeColor.a > 0) {
+    if (style.bodyStrokeWidth > 0 && style.bodyStrokeColor.alpha != 0) {
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           bodyRect,

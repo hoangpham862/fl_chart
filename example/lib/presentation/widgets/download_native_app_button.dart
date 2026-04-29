@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class DownloadNativeAppButton extends StatelessWidget {
   const DownloadNativeAppButton({
-    super.key,
+    Key? key,
     required this.onClose,
     required this.onDownload,
-  });
+  }) : super(key: key);
 
   final VoidCallback onClose;
   final VoidCallback onDownload;

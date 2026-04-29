@@ -10,13 +10,13 @@ class MenuRow extends StatefulWidget {
   final VoidCallback onDocumentsTap;
 
   const MenuRow({
-    super.key,
+    Key? key,
     required this.text,
     required this.svgPath,
     required this.isSelected,
     required this.onTap,
     required this.onDocumentsTap,
-  });
+  }) : super(key: key);
 
   @override
   State<MenuRow> createState() => _MenuRowState();

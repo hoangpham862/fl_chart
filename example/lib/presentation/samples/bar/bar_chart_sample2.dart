@@ -4,7 +4,7 @@ import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample2 extends StatefulWidget {
-  BarChartSample2({super.key});
+  BarChartSample2({Key? key}) : super(key: key);
 
   final Color leftBarColor = AppColors.contentColorRed;
   final Color rightBarColor = AppColors.contentColorYellow;
@@ -268,7 +268,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         Container(
           width: width,
           height: 10,
-          color: Colors.white.withValues(alpha: 0.4),
+          color: Colors.white.withAlpha(40),
         ),
         const SizedBox(
           width: space,
@@ -276,7 +276,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         Container(
           width: width,
           height: 28,
-          color: Colors.white.withValues(alpha: 0.8),
+          color: Colors.white.withAlpha(80),
         ),
         const SizedBox(
           width: space,
@@ -284,7 +284,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         Container(
           width: width,
           height: 42,
-          color: Colors.white.withValues(alpha: 1),
+          color: Colors.white.withAlpha(100),
         ),
         const SizedBox(
           width: space,
@@ -292,7 +292,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         Container(
           width: width,
           height: 28,
-          color: Colors.white.withValues(alpha: 0.8),
+          color: Colors.white.withAlpha(80),
         ),
         const SizedBox(
           width: space,
@@ -300,7 +300,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         Container(
           width: width,
           height: 10,
-          color: Colors.white.withValues(alpha: 0.4),
+          color: Colors.white.withAlpha(40),
         ),
       ],
     );
